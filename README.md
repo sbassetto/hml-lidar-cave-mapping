@@ -3,6 +3,7 @@ Open-source helmet-mounted LiDAR workflow for cave mapping using ROS2, DLIO, poi
 
 #By 
 Samuel Bassetto, LABAC, Ecole Polytechnique de Montréal
+
 Giovanni Beltrame, MIST Lab, Polytechnique Montréal
 
 Date: 2026-06-28
