@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ROS2 / colcon
+build/
+install/
+log/
+
+# Large raw data
+*.db3
+*.mcap
+*.bag
+*.pcd
+*.ply
+*.las
+*.laz
+
+# Temporary outputs
+results/
+tmp/
