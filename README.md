@@ -48,7 +48,7 @@ La base matérielle repose sur un lidar Livox MID360, monté sur un casque de sp
 
 Le dispositif est installé dans un conteneur de protection et dans une sacoche de portage 3L. 
 
-Sur le terrain, le dispositif complet est allumé via le bouton d’allumage de la batterie. L’enregistrement est lancé par un commutateur (bouton) puis arrêté par un secon appui sur ce même bouton. Au démarrage du RPi, un deamon est lancé pour ausculter ce bouton placé sur des pins 4 et 7 du RPi.
+Sur le terrain, le dispositif complet est allumé via le bouton d’allumage de la batterie. L’enregistrement est lancé par un commutateur (bouton) puis arrêté par un second appui sur ce même bouton. Au démarrage du RPi, un daemon est lancé pour ausculter ce bouton placé sur les pins GPIO (4 et 7) du RPi.
 
 Pour les tests, l’ordinateur s’est appelé Chinnok (en référence au Mont Chinnok en Alberta). Vous pourrez changer pour le nom qui vous convient.
 
