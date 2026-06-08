@@ -1,14 +1,35 @@
 # hml-lidar-cave-mapping
 Open-source helmet-mounted LiDAR workflow for cave mapping using ROS2, DLIO, point-cloud processing, and VisualTopo export.
 
-
-*English version will follow
-
-#Projet développé par 
+#By 
 Samuel Bassetto, LABAC, Ecole Polytechnique de Montréal
 Giovanni Beltrame, MIST Lab, Polytechnique Montréal
 
-Date : 2026-06-28
+Date: 2026-06-28
+
+# HML-LiDAR Cave Mapping
+
+This repository provides an open-source workflow for helmet-mounted LiDAR cave mapping.
+
+The project aims to support affordable and reproducible 3D cave documentation using:
+
+- a helmet-mounted LiDAR/IMU system;
+- ROS2 bag acquisition on a Raspberry Pi 4;
+- Docker-based processing;
+- DLIO LiDAR-inertial odometry;
+- point-cloud export to PCD;
+- conversion from LiDAR-derived trajectory and point cloud to VisualTopo `.tro` files.
+
+## Repository structure
+
+config/      ROS2 and DLIO configuration files
+scripts/     Data transfer, processing, point-cloud export, and VisualTopo conversion scripts
+hardware/    Helmet-mounted hardware description, bill of materials, and mounting documentation
+docs/        Installation, field protocol, calibration, and troubleshooting documentation
+data/        Small example datasets and processed outputs
+paper/       Notes, figures, and supplementary material for the manuscript
+
+Descriptif en Francais du projet HML :
 
 Le projet Cave Explorer déploie un système de cartographie souterraine autonome basé sur la technologie LiDAR. L'objectif principal réside dans l'acquisition de nuages de points denses en milieu confiné et leur conversion automatisée vers des formats topographiques standards. L'infrastructure s'appuie sur un capteur Livox Mid360 interfacé avec un Raspberry Pi 4, opérant sous un environnement conteneurisé Docker. Le traitement algorithmique transforme les données brutes de télédétection en modèles tridimensionnels et en fiches de cheminement exploitables par les spéléologues.
 
@@ -47,6 +68,10 @@ Le traitement post-expédition repose sur des modules Python dédiés s'exécuta
 * Un quatrième script génère le fichier topographique textuel compatible avec la norme Visual Topo. L'algorithme simplifie d'abord la trajectoire continue pour définir des stations de cheminement espacées de manière régulière. Pour chaque station, il détermine un axe de progression géométrique et applique une coupe vectorielle perpendiculaire. La projection mathématique des points du nuage sur ce plan de coupe en deux dimensions permet d'extraire les dimensions exactes de la galerie à gauche, à droite, en haut et en bas. Le module génère ensuite une distribution radiale de visées secondaires pour assurer une modélisation précise des parois environnantes, tout en filtrant le bruit matériel situé à proximité immédiate du capteur.
 
 L'ensemble de cette architecture garantit une chaîne de traitement continue et autonome, de l'acquisition souterraine brute jusqu'à la modélisation topographique normée, tout en respectant les limites de calcul imposées par le matériel embarqué.
+
+Liste des scripts et codes :
+=================================
+La gestion des interruptions matérielles repose sur deux fichiers spécifiques au système d'exploitation de l'hôte Linux (RPi). Le script Python identifié comme button_daemon.py exploite la bibliothèque RPi.GPIO pour écouter la broche physique configurée en BCM 17, ou BCM 27 selon le schéma final, via une résistance de tirage vers le haut. Ce code est maintenu actif en arrière-plan grâce au fichier de configuration hml_button.service, placé dans le répertoire des démons système sous /etc/systemd/system/ (sur el RPi). L'activation de cette écoute passive s'effectue via les commandes de contrôle du gestionnaire de processus, spécifiquement le rechargement via systemctl daemon-reload, l'activation au démarrage par systemctl enable et le lancement immédiat via systemctl start.
 
 Quelques références bibliographie
 =================================
