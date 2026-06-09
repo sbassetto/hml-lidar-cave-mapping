@@ -38,15 +38,29 @@ else
     exit 1
 fi
 
-# --- CONFIGURATION LOCALE (Mac) ---
-RP_USER="samuel"
-RP_HOST="chinook.local" 
-RP_PATH="/home/samuel/Cave_explorer/data/cave_data/" 
-LOCAL_BASE="/Users/samuel/desktop/Expedition_Data"
-RAW_DIR="$LOCAL_BASE/raw"
-RESULTS_DIR="$LOCAL_BASE/results"
 
-# --- CONFIGURATION DOCKER (Mis à jour pour cave_explorer_m4) ---
+#!/bin/bash
+
+# --- CONFIGURATION LOCALE (Mac) ---
+
+# Définition de l'utilisateur distant sur le Raspberry Pi. 
+# Si le nom d'utilisateur diffère sur le RPi, il faudra remplacer "${USER}" par la chaîne exacte
+RP_USER="${USER}"
+# Si le nom du RPi est différent de "chinnok" mettre le nom de votre raspBerryPi ; P_HOST="votre_nom_RPi.local" 
+RP_HOST="chinook.local" 
+
+# Chemin absolu sur le Raspberry Pi intégrant la variable pour le dossier utilisateur
+RP_PATH="/home/${RP_USER}/Cave_explorer/data/cave_data/" 
+
+# Chemin absolu sur le poste de traitement macOS. 
+# La variable ${USER} est automatiquement remplacée par le système par le nom de la session active.
+LOCAL_BASE="/Users/${USER}/Desktop/Expedition_Data"
+
+# Définition des sous-répertoires de traitement par concaténation
+RAW_DIR="${LOCAL_BASE}/raw"
+RESULTS_DIR="${LOCAL_BASE}/results"
+
+# --- CONFIGURATION DOCKER ---
 DOCKER_PATH="/root/data" 
 ROS_WS="/root/ros2_ws"
 
@@ -189,3 +203,8 @@ for folder in "$RAW_DIR"/*/; do
     fi
 done
 echo "------------------------------------------------"
+
+
+# ================================================
+#  Fait à Montréal, Samuel Bassetto, V2026-06-08
+# ================================================
