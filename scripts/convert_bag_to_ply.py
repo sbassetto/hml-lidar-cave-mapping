@@ -1,3 +1,6 @@
+# ----------------------------------------------------------------
+# Fait à Montréal, Samuel Bassetto, V2026-06-08
+# ----------------------------------------------------------------
 import os
 import numpy as np
 from pathlib import Path
