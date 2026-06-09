@@ -1,3 +1,6 @@
+# ----------------------------------------------------------------
+# Fait à Montréal, Samuel Bassetto, V2026-06-08
+# ----------------------------------------------------------------
 import rosbag2_py
 from rclpy.serialization import deserialize_message
 from rosidl_runtime_py.utilities import get_message
