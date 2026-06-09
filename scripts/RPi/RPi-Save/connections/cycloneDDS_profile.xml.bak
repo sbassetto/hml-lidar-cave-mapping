@@ -1,0 +1,13 @@
+<CycloneDDS>
+  <Domain id="any">
+    <General>
+      <Network>
+        <Interfaces>
+          <Allow>wlan0</Allow>
+          <Deny>!</Deny>
+        </Interfaces>
+        <EnableMulticast>true</EnableMulticast>
+      </Network>
+    </General>
+  </Domain>
+</CycloneDDS>
