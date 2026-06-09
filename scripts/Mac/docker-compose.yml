@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ros2_processing:
-    container_name: cave_explorer_m4
+    container_name: cave_explorer_m4 #nommage initial du dispositif. Vous pouvez le changer mais c'est correct aussi de garder ce nom pour un debuggage plus rapide.
     build:
       context: .
       dockerfile: Dockerfile
