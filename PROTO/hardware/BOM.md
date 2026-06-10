@@ -63,7 +63,7 @@ All regulated outputs must be measured with a multimeter before connecting the L
 | MNT-002 | Mounting | Helmet mount | Sensor mount |  | Custom 3D-printed or machined mount | 1 | yes | yes | critical |
 | MNT-003 | Cable management | Field robustness | Cable ties / Velcro / strain relief |  | Field-grade fastening material | as needed | yes | yes | high |
 | BAG-001 | Transport | Field transport | Protective transport bag | MTDE | Orange cylindrical transport bag | 1 | recommended | yes | medium |
-| PWR-001 | Power | Battery | Intelligent flight battery | DJI | TB47D, 4500 mAh, 99.90 Wh, 22.2 V, LiPo | 1 | yes | limited | critical |
+| PWR-001 | Power | Battery | Intelligent flight battery | DJI | TB47D, 4500 mAh, 99.90 Wh, 22.2 V, LiPo (https://store.dji.com/ca/product/matrice-100-tb47d-battery) | 1 | yes | limited | critical |
 | PWR-002 | Power | Battery interface | Battery holder / battery box | DJI | Matrice 100 battery interface / battery box | 1 | yes | limited | critical |
 | PWR-003 | Power | Charging | AC battery charger | DJI | A14-100P1A, input 100–240 V AC, output 26.3 V / 3.83 A, 100 W | 1 | yes | limited | high |
 | PWR-004 | Power | Voltage conversion | DC-DC converter for LiDAR supply | VGEPS | 190 W DC-DC converter; label observed: IN 24 V, OUT 19 V / 10 A | 1 | yes | limited | critical |
@@ -129,7 +129,22 @@ The LiDAR mount must be mechanically stable and must not compromise the protecti
 
 The DC-DC converter boards, solder joints and exposed pads visible in the current prototype should be treated as bench-prototype elements. For routine cave use, they should be enclosed, insulated and protected against dripping water, mud, abrasion and impact.
 
-## 9. Change log
+## 9. Internet links
+Partial internet links to components supplier. Require a perticular attention as link can be broken, out of order...
+Lidar: 
+https://www.livoxtech.com/mid-360s
+
+battery: 
+Battery Compartment
+https://www.aeromotus.com/product/matrice-100-battery-compartment-kit/?srsltid=AfmBOorGxWaJFC1UPpXSqTXe7X1TUYuZAqlG0yZztNBX7ymab9DVBCdw
+
+Dc-DC converter (22V to 15V for the LiDAR)
+https://www.amazon.ca/DROK-Waterproof-Converter-Adjustable-Transformer/dp/B00C0KL1OM
+
+DC to DC converter (22V to 5V votre the RPi)
+https://www.amazon.ca/MECCANIXITY-Converter-Voltage-Waterproof-Transformer/dp/B0DG5GCW2L/ref=asc_df_B0DG5GCW2L?mcid=2cadf647580a3f5980039dcc16aa6eb3&tag=googleshopc0c-20&linkCode=df0&hvadid=766556333461&hvpos=&hvnetw=g&hvrand=2053626137665046708&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9000439&hvtargid=pla-2448749223511&psc=1&hvocijid=2053626137665046708-B0DG5GCW2L-&hvexpln=0&gad_source=1
+
+## 10. Change log
 
 | Version | Date | Change | Validation status |
 |---|---|---|---|
