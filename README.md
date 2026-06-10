@@ -8,7 +8,7 @@ Open-source helmet-mounted LiDAR workflow for cave mapping using ROS2, DLIO, poi
 
 # Date: 2026-06-28
 
-# Descripotion 
+# Description 
 This repository provides an open-source workflow for helmet-mounted LiDAR cave mapping.
 
 The project aims to support affordable and reproducible 3D cave documentation using:
