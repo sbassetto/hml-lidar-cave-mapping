@@ -5,7 +5,7 @@ Open-source helmet-mounted LiDAR for cave mapping using a LIVOX MID-360, RPi-4VB
 **Project:** HML-LiDAR — Head/Helmet-Mounted LiDAR for cave mapping  
 **Institution:** LABAC, Polytechnique Montréal  
 **Authors:** Samuel Bassetto; Giovanni Beltrame  
-**Status:** Active development  
+**Status:** Active development  /PROTO/
 **Date:** 2026-06-28
 
 ## Overview

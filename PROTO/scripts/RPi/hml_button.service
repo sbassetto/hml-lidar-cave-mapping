@@ -1,0 +1,20 @@
+[Unit]
+Description=Démon de gestion du bouton matériel HML
+# Le service attend que le moteur Docker soit opérationnel avant de s'initier
+After=docker.service network.target
+
+[Service]
+Type=simple
+# Exécution avec les privilèges nécessaires pour accéder au bus GPIO
+User=root
+# Chemin absolu de l'interpréteur Python et du script de lecture (à adapter selon le déploiement)
+ExecStart=/usr/bin/python3 /opt/hml/button_daemon.py
+# Redémarrage automatique en cas de défaillance logicielle
+Restart=on-failure
+RestartSec=5
+# Redirection des flux de sortie vers le journal du système (syslog)
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

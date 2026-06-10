@@ -1,0 +1,15 @@
+version: 2026-06-09
+
+services:
+  ros2_processing:
+    container_name: cave_explorer_m4 #nommage initial du dispositif. Vous pouvez le changer mais c'est correct aussi de garder ce nom pour un debuggage plus rapide.
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host # Indispensable pour que ROS 2 communique bien
+    volumes:
+      - ./raw:/root/data
+      - ./ros2_ws:/root/ros2_ws
+    stdin_open: true # Équivalent du -i
+    tty: true        # Équivalent du -t
+    privileged: true # Donne accès aux ressources du Mac si besoin
