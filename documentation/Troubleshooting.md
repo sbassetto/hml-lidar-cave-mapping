@@ -2,7 +2,7 @@
 
 🛰️  CONNEXION CHINOOK :" 
 
- /ssh $RP_USER@$RP_HOST Password: chinook"/
+ '''ssh $RP_USER@$RP_HOST Password: chinook"'''
 
 🐳 DOCKER:
 Statut: 
