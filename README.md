@@ -23,9 +23,11 @@ The project aims to support affordable and reproducible 3D cave documentation us
 
 ## Repository structure
 
-config/          ROS2 and DLIO configuration files
+config/         ROS2 and DLIO configuration files
 
-scripts/Data/    transfer, processing, point-cloud export, and VisualTopo conversion scripts
+data/           Sample
+
+scripts/        Transfer, processing, point-cloud export, and VisualTopo conversion scripts
     /MAC/       Scripts dedicated for the MAC 
     /RPi/       Scripts dedicated for the RPi
 
