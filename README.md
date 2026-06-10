@@ -26,12 +26,10 @@ The project aims to support affordable and reproducible 3D cave documentation us
 config/          ROS2 and DLIO configuration files
 
 scripts/Data/    transfer, processing, point-cloud export, and VisualTopo conversion scripts
-
-    /MAC/        Scripts dedicated for the MAC 
+    /MAC/       Scripts dedicated for the MAC 
     /RPi/       Scripts dedicated for the RPi
 
 hardware/        Helmet-mounted hardware description, bill of materials, and mounting documentation
-
     /Photos/     Pictures of the LiDAR
 
 docs/            Installation, field protocol, calibration, and troubleshooting documentation
