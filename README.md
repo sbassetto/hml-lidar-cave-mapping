@@ -1,36 +1,32 @@
-# hml-lidar-cave-mapping
+# HML-LiDAR Cave Mapping
+
 Open-source helmet-mounted LiDAR workflow for cave mapping using ROS2, DLIO, point-cloud processing, and VisualTopo export.
 
-# Version : 2026-06-28
+**Project:** HML-LiDAR — Head/Helmet-Mounted LiDAR for cave mapping  
+**Institution:** LABAC, Polytechnique Montréal  
+**Authors:** Samuel Bassetto; Giovanni Beltrame  
+**Status:** Active development  
+**Date:** 2026-06-28
 
-# authors 
- Samuel Bassetto, LABAC, Ecole Polytechnique de Montréal
+## Overview
 
- Giovanni Beltrame, MIST Lab, Polytechnique Montréal
+This repository provides an open-source workflow for affordable and reproducible 3D cave documentation using a helmet-mounted LiDAR/IMU system.
 
-# Description 
-This repository provides an open-source workflow for helmet-mounted LiDAR cave mapping.
+The workflow covers the complete chain from field acquisition to topographic export:
 
-The project aims to support affordable and reproducible 3D cave documentation using:
-
-- a helmet-mounted LiDAR/IMU system;
-- ROS2 bag acquisition on a Raspberry Pi 4 Vers. B ;
-- Docker-based processing;
-- DLIO LiDAR-inertial odometry;
-- point-cloud export to PCD;
-- conversion from LiDAR-derived trajectory and point cloud to VisualTopo `.tro` files.
-
-# Repository structure
-
-config/          ROS2 and DLIO configuration files
-
-documentation/    Installation, field protocol, calibration, and troubleshooting documentation
-
-hardware/        Helmet-mounted hardware description, bill of materials, and mounting documentation, pictures of the LiDAR
-
-sample/results/  Example datasets and processed outputs
-
-scripts/        Transfer, processing, point-cloud export, and VisualTopo conversion scripts
-    /MAC/       Scripts dedicated for the MAC 
-    /RPi/       Scripts dedicated for the RPi
-
+```text
+Helmet-mounted Livox Mid-360 + IMU
+        ↓
+Raspberry Pi 4 / ROS2 acquisition
+        ↓
+ROS2 bag files
+        ↓
+Transfer to post-processing computer
+        ↓
+Docker / ROS2 Humble / DLIO
+        ↓
+Registered point cloud and trajectory
+        ↓
+PCD point cloud export
+        ↓
+VisualTopo-compatible .tro export
