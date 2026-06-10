@@ -39,14 +39,15 @@ DJI TB47D battery
       ↓
 DJI Matrice 100 battery interface
       ↓
-Inline switch / power distribution wiring
-      ↓
 ────────────────────────────────────
 ↓                                  ↓
 DC-DC converter for LiDAR           DC-DC converter for Raspberry Pi
 VGEPS 190 W module                  LANTIANRC 5 V module
 ↓                                  ↓
 LiDAR power input                   Raspberry Pi 5 V input
+                                   ↓
+                                    I/O Recording Switch
+
 ```
 
 All regulated outputs must be measured with a multimeter before connecting the LiDAR or Raspberry Pi. The prototype-level converter boards visible in the photographs require insulation, strain relief and preferably a protective enclosure before routine wet-cave use.
