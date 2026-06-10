@@ -1,6 +1,6 @@
 # HML-LiDAR Cave Mapping
 
-Open-source helmet-mounted LiDAR workflow for cave mapping using ROS2, DLIO, point-cloud processing, and VisualTopo export.
+Open-source helmet-mounted LiDAR for cave mapping using a LIVOX MID-360, RPi-4VB, ROS2, DLIO, point-cloud processing, and VisualTopo export.
 
 **Project:** HML-LiDAR — Head/Helmet-Mounted LiDAR for cave mapping  
 **Institution:** LABAC, Polytechnique Montréal  
