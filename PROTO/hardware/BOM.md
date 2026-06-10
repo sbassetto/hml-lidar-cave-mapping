@@ -63,7 +63,7 @@ All regulated outputs must be measured with a multimeter before connecting the L
 | MNT-002 | Mounting | Helmet mount | Sensor mount |  | Custom 3D-printed or machined mount | 1 | yes | yes | critical |
 | MNT-003 | Cable management | Field robustness | Cable ties / Velcro / strain relief |  | Field-grade fastening material | as needed | yes | yes | high |
 | BAG-001 | Transport | Field transport | Protective transport bag | MTDE | Orange cylindrical transport bag | 1 | recommended | yes | medium |
-| PWR-001 | Power | Battery | Intelligent flight battery | DJI | TB47D, 4500 mAh, 99.90 Wh, 22.2 V, LiPo (https://store.dji.com/ca/product/matrice-100-tb47d-battery) | 1 | yes | limited | critical |
+| PWR-001 | Power | Battery | Intelligent flight battery | DJI | TB47D, 4500 mAh, 99.90 Wh, 22.2 V, LiPo | 1 | yes | limited | critical |
 | PWR-002 | Power | Battery interface | Battery holder / battery box | DJI | Matrice 100 battery interface / battery box | 1 | yes | limited | critical |
 | PWR-003 | Power | Charging | AC battery charger | DJI | A14-100P1A, input 100–240 V AC, output 26.3 V / 3.83 A, 100 W | 1 | yes | limited | high |
 | PWR-004 | Power | Voltage conversion | DC-DC converter for LiDAR supply | VGEPS | 190 W DC-DC converter; label observed: IN 24 V, OUT 19 V / 10 A | 1 | yes | limited | critical |
@@ -135,6 +135,8 @@ Lidar:
 https://www.livoxtech.com/mid-360s
 
 battery: 
+https://store.dji.com/ca/product/matrice-100-tb47d-battery
+
 Battery Compartment
 https://www.aeromotus.com/product/matrice-100-battery-compartment-kit/?srsltid=AfmBOorGxWaJFC1UPpXSqTXe7X1TUYuZAqlG0yZztNBX7ymab9DVBCdw
 
