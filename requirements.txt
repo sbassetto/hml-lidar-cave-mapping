@@ -1,0 +1,9 @@
+# Fichier : requirements.txt
+# Environnement Conda local (hml_env) pour l'alignement et l'extraction topographique
+
+numpy>=1.26.0
+open3d>=0.18.0
+rosbags>=0.9.15
+scipy>=1.13.0
+flask>=3.0.0
+werkzeug>=3.0.0
