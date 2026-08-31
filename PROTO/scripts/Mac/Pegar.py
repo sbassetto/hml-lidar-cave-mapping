@@ -20,7 +20,7 @@ from scipy.spatial.transform import Rotation as R
 from serveur_alignement import obtenir_matrice_manuelle
 import traceback
 
-# Paramétrage de la résolution spatiale dissociée pour affichage et assemblage (11 dimensions originelles)
+# Paramétrage de la résolution spatiale dissociée pour affichage et assemblage
 TAILLE_VOXEL_ASSEMBLAGE = 0.02
 TAILLE_VOXEL_AFFICHAGE = 0.01
 
