@@ -13,6 +13,7 @@
 # Optional environment variables:
 #   HML_RAW_DIR       Host directory containing raw ROS 2 bags
 #   HML_RESULTS_DIR   Host directory receiving processed ROS 2 bags
+#   HML_PARAMS_FILE    Parameter file inside the container (default: /root/hml/config/params.yaml)
 #
 # Defaults intentionally match the field workstation layout:
 #   ~/Desktop/Expedition_Data/raw
@@ -22,7 +23,7 @@ set -euo pipefail
 
 CONTAINER_NAME="hml_lidar_reva"
 HML_WS="/opt/hml_ws"
-PARAMS_FILE="/root/hml/config/params.yaml"
+PARAMS_FILE="${HML_PARAMS_FILE:-/root/hml/config/params.yaml}"
 
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$BASE_DIR"
@@ -41,6 +42,7 @@ ensure_docker() {
     echo "=== HML-LiDAR RevA : traitement DLIO ==="
     echo "Raw host     : $HML_RAW_DIR"
     echo "Results host : $HML_RESULTS_DIR"
+    echo "Params DLIO   : $PARAMS_FILE"
     echo
 
     if ! docker_ready; then
@@ -301,9 +303,13 @@ traiter_un_bag() {
         return 1
     fi
 
-    # Preserve the exact processing configuration used for this result.
-    # The configuration directory is mounted read-only from PROTO/configuration.
+
+    echo "Archivage du paramétrage et de la provenance..."
+    local image_id
+    image_id="$(docker inspect --format='{{.Image}}' "$CONTAINER_NAME" 2>/dev/null || true)"
+
     docker exec "$CONTAINER_NAME" bash -lc "
+        test -f '$PARAMS_FILE'
         cp -f '$PARAMS_FILE' '$output_container/params_used.yaml'
         PARAMS_SHA256=\$(sha256sum '$PARAMS_FILE' | awk '{print \$1}')
         {
@@ -313,16 +319,18 @@ traiter_un_bag() {
           echo 'output_bag=$output_name'
           echo 'params_file=$PARAMS_FILE'
           echo \"params_sha256=\$PARAMS_SHA256\"
-          echo 'dlio_commit=c8acc37100e349d70a9d8432d656cbce7e5072cd'
+          echo 'dlio_base_commit=c8acc37100e349d70a9d8432d656cbce7e5072cd'
+          echo 'dlio_source=field-tested RevA overlay'
+          echo 'docker_image=hml-lidar-reva:local'
+          echo 'docker_image_id=$image_id'
           echo \"processed_utc=\$(date -u '+%Y-%m-%dT%H:%M:%SZ')\"
         } > '$output_container/processing_info.txt'
     "
 
     if [ ! -f "$output_host/params_used.yaml" ] || [ ! -f "$output_host/processing_info.txt" ]; then
-        echo "ERREUR : les informations de provenance n'ont pas été archivées." >&2
+        echo "ERREUR : la provenance du traitement n'a pas été archivée." >&2
         return 1
     fi
-
 
     echo
     docker exec "$CONTAINER_NAME" bash -lc "
