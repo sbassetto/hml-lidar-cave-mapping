@@ -1,5 +1,4 @@
 # ZUPT-assisted temporal reinitialization and piecewise DLIO reprocessing
-# Concept By Samuel Bassetto samuel-jean.bassetto@polymtl.ca.
 
 ## Scope
 
