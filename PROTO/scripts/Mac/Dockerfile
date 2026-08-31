@@ -126,10 +126,9 @@ RUN git clone https://github.com/vectr-ucla/direct_lidar_inertial_odometry.git \
     && git checkout "${DLIO_COMMIT}"
 
 # HML-LiDAR RevA field-tested DLIO source overlay.
-# The overlay is kept in the repository so that the exact compiled field build
-# can be reconstructed from the pinned upstream commit.
-COPY software/dlio_reva_overlay/ \
-     "${HML_WS}/src/direct_lidar_inertial_odometry/"
+# These files preserve the exact source snapshot used for the field build,
+# including parameter loading from ROS 2 YAML at node initialization.
+COPY software/dlio_reva_overlay/ "${HML_WS}/src/direct_lidar_inertial_odometry/"
 
 RUN /bin/bash -lc \
     "source /opt/ros/humble/setup.bash && \
