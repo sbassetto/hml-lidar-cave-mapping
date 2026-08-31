@@ -32,3 +32,16 @@ set of {Registered point cloud and trajectory}
 Clever merge of multiple-recording session - generation of new trajectory and point cloud
         ↓
 VisualTopo-compatible .tro export
+
+## Online point-cloud visualization
+
+HML-LiDAR `.pcd` outputs can also be inspected in a browser using
+the project web viewer hosted on the Arbutus infrastructure of
+Calcul Québec:
+
+**http://134.87.12.16/index.html**
+
+The viewer is an optional visualization service and is not required
+for acquisition, DLIO processing, ZUPT-assisted reprocessing,
+manual Pegar registration, or scientific reproducibility.
+
