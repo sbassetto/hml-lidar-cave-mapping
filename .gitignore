@@ -8,6 +8,10 @@ __pycache__/
 .venv/
 venv/
 
+# Local Docker processing data
+PROTO/scripts/Mac/raw/
+PROTO/scripts/Mac/results/
+
 # ROS2 / colcon
 build/
 install/
