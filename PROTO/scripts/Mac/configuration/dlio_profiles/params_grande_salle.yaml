@@ -1,0 +1,50 @@
+/**:
+  ros__parameters:
+    use_sim_time: true
+    pointcloud_topic: "/livox/lidar"
+    imu_topic: "/livox/imu"
+    frames/odom: "odom"
+    frames/baselink: "base_link"
+    frames/lidar: "lidar"
+    frames/imu: "imu"
+    map/waitUntilMove: false
+    map/dense/filtered: true
+    map/sparse/leafSize: 0.1
+    odom/gravity: 9.80665
+    odom/computeTimeOffset: true
+    odom/imu/approximateGravity: true
+    odom/imu/calibration/gyro: true
+    odom/imu/calibration/accel: true
+    odom/imu/calibration/time: 5.0
+    odom/imu/bufferSize: 5000
+
+    odom/preprocessing/cropBoxFilter/size: 0.5
+    # Lissage macroscopique adapté aux grandes structures
+    odom/preprocessing/voxelFilter/res: 0.50
+
+    # Création espacée des points de référence pour couvrir le grand volume
+    odom/keyframe/threshD: 2.0
+    odom/keyframe/threshR: 2.0
+
+    # Tolérance maximale aux vides et extension extrême de la recherche
+    odom/gicp/minNumPoints: 30
+    odom/gicp/kCorrespondences: 20
+    odom/gicp/maxCorrespondenceDistance: 10.0
+    odom/gicp/maxIterations: 128
+    odom/gicp/transformationEpsilon: 0.001
+    odom/gicp/rotationEpsilon: 0.0001
+    odom/gicp/initLambdaFactor: 1e-9
+
+    # Mémoire spatiale massive pour ancrer l'odométrie dans les puits
+    odom/submap/keyframe/knn: 150
+    odom/submap/keyframe/kcv: 150
+    odom/submap/keyframe/kcc: 150
+
+    # Équilibre géométrique standard
+    odom/geo/Kp: 2.0
+    odom/geo/Kv: 2.0
+    odom/geo/Kq: 2.0
+    odom/geo/Kab: 1.0
+    odom/geo/Kgb: 1.0
+    odom/geo/abias_max: 4.0
+    odom/geo/gbias_max: 0.5

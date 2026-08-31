@@ -1,0 +1,127 @@
+###########################################################
+#                                                         #
+# Copyright (c)                                           #
+#                                                         #
+# The Verifiable & Control-Theoretic Robotics (VECTR) Lab #
+# University of California, Los Angeles                   #
+#                                                         #
+# Authors: Kenny J. Chen, Ryan Nemiroff, Brett T. Lopez   #
+# Contact: {kennyjchen, ryguyn, btlopez}@ucla.edu         #
+#                                                         #
+###########################################################
+###############################################################################
+# GUIDE DES PARAMÈTRES - DIRECT LIDAR INERTIAL ODOMETRY (DLIO)
+# ---------------------------------------------------------------------------
+# UNITÉS : Distances en Mètres (m), Angles en Degrés (°), Temps en Secondes (s)
+###############################################################################
+# --- CONFIGURATION GÉNÉRALE & TOPICS ---
+# use_sim_time: 'true' pour utiliser l'horloge du rosbag (indispensable en rejeu).
+# pointcloud_topic / imu_topic: Chemins des données brutes du Livox Mid-360.
+# --- CARTOGRAPHIE (MAP) ---
+# map/waitUntilMove: Si 'true', le SLAM attend un mouvement pour commencer à mapper.
+# map/dense/filtered: Active le filtrage pour une carte plus légère et propre.
+# map/sparse/leafSize: Taille des voxels (m) pour la carte de navigation. 0.1m est un bon compromis.
+#odom/preprocessing/cropBoxFilter/size,Définit l'arête d'un cube d'exclusion autour du centre optique. Il supprime les échos parasites générés par le porteur ou le casque. Une valeur trop grande aveugle le SLAM dans les étroitures.
+#odom/preprocessing/voxelFilter/res,Établit la résolution de la grille de sous-échantillonnage. Il fusionne les points rapprochés pour lisser le bruit géométrique. Une résolution élevée accélère le calcul et gomme la rugosité ; une résolution fine conserve les détails nécessaires aux petits volumes.
+#
+# --- IMU & GRAVITÉ ---
+# odom/gravity: Valeur de l'accélération terrestre (m/s²).
+# odom/imu/calibration/time: Durée (s) pendant laquelle le capteur doit rester IMMOBILE 
+#                            au début pour calibrer le biais des gyroscopes.
+# odom/imu/bufferSize: Nombre de messages IMU stockés en mémoire pour la synchronisation.
+# --- PRÉTRAITEMENT (PREPROCESSING) ---
+# cropBoxFilter/size: Supprime les points trop proches du LiDAR (ex: le support ou le toit) (m).
+# voxelFilter/res: Résolution de la "grille" de points (m). Plus c'est grand, plus c'est rapide 
+#                  mais moins c'est précis. 0.25m est idéal pour les grands espaces.
+# --- KEYFRAMES (POINTS DE RÉFÉRENCE) ---
+#odom/keyframe/threshD,Détermine la distance de translation linéaire (en mètres) requise pour forcer la création d'une nouvelle image de référence spatiale.
+#odom/keyframe/threshR,Détermine le seuil de rotation angulaire (en degrés) déclenchant une nouvelle image de référence. Il doit être relâché pour absorber les mouvements brusques sans saturer la mémoire.
+# odom/keyframe/threshD: Distance (m) après laquelle une nouvelle image de référence est créée.
+# odom/keyframe/threshR: Angle (°) après lequel une nouvelle image de référence est créée.
+#                        Note : Pour tes rotations rapides, baisser cette valeur (ex: 2.0) aide.
+# --- GICP (GLOBAL ITERATIVE CLOSEST POINT) ---
+# L'algorithme qui "recolle" les scans entre eux :
+#odom/gicp/minNumPoints,"Fixe le seuil critique d'échos laser requis. Sous ce volume de points, le solveur s'interrompt pour éviter de diverger sur des données statistiquement insuffisantes."
+#odom/gicp/maxCorrespondenceDistance,"Définit le rayon de recherche maximal pour apparier deux nuages de points. S'il est trop court dans une grande salle, le solveur tourne dans le vide. S'il est trop large dans un boyau, il associe des structures aberrantes (ghosting)."
+# maxCorrespondenceDistance: Distance max (m) pour chercher un point commun entre deux scans.
+# maxIterations: Nombre de tentatives de calcul par scan. (128 = haute précision).
+# transformationEpsilon: Seuil d'arrêt du calcul. Plus c'est petit, plus c'est précis.
+# --- SOUS-CARTES (SUBMAPS) ---
+#"odom/submap/keyframe/knn, kcv, kcc",Dimensionnent la profondeur de la mémoire spatiale. Ils déterminent le nombre de trames passées conservées en mémoire vive pour construire la carte locale sur laquelle le balayage actuel s'aligne.
+#"odom/geo/Kp, Kv",Contrôlent les gains de position et de vitesse du filtre d'état. Un gain Kp élevé force le système à faire une confiance absolue au recalage laser pour la translation.
+# knn / kcv / kcc: Nombre de keyframes passées utilisées pour localiser le scan actuel.
+#                  Plus ces valeurs sont hautes, plus le système est stable face aux dérives,
+#                  mais plus il consomme de CPU.
+# --- FILTRE GÉOMÉTRIQUE (GAINS D'OBSERVATEUR) ---
+# Ces paramètres règlent la fusion entre le LiDAR et l'IMU.
+#odom/geo/Kq,"Contrôle le gain d'attitude. Une valeur élevée subordonne l'orientation globale aux données gyroscopiques pures, ignorant les micro-corrections suggérées par la géométrie du LiDAR."
+# 
+# Kp : Gain de position. Plus il est haut, plus le LiDAR corrige vite la position.
+# Kv : Gain de vitesse. Aide à lisser les accélérations.
+# Kq : Gain d'attitude (Rotation). Contrôle la confiance envers l'IMU pour l'orientation. 
+#      Si tu tournes la tête trop vite, baisser cette valeur (ex: 2.0) force le système 
+#      à faire plus confiance au laser qu'au gyroscope brusque.
+# Kab / Kgb : Gains de correction des biais (Accéléromètre / Gyroscope). 
+#             Ils permettent d'apprendre l'erreur interne des capteurs au fil du temps.
+# abias_max : Limite maximale (m/s²) pour la correction du biais de l'accéléromètre.
+# gbias_max : Limite maximale (rad/s) pour la correction du biais du gyroscope.
+#             Note : Une valeur de 1.0 est une sécurité pour éviter les dérives infinies.
+###############################################################################
+/**:
+  ros__parameters:
+    # --- Configuration Générale ---
+    use_sim_time: true
+    pointcloud_topic: "/livox/lidar"
+    imu_topic: "/livox/imu"
+
+    # --- Frames ---
+    frames/odom: "odom"
+    frames/baselink: "base_link"
+    frames/lidar: "lidar"
+    frames/imu: "imu"
+
+    # --- Cartographie ---
+    map/waitUntilMove: false
+    map/dense/filtered: true
+    map/sparse/leafSize: 0.1
+
+    # --- IMU & Gravité ---
+    odom/gravity: 9.80665
+
+    odom/computeTimeOffset: true
+    odom/imu/approximateGravity: true
+    odom/imu/calibration/gyro: true
+    odom/imu/calibration/accel: true
+    odom/imu/calibration/time: 5.0
+    odom/imu/bufferSize: 5000
+
+    # --- Prétraitement ---
+    odom/preprocessing/cropBoxFilter/size: 0.5
+    odom/preprocessing/voxelFilter/res: 0.1
+
+    # --- Keyframes ---
+    odom/keyframe/threshD: 1.0
+    odom/keyframe/threshR: 1.0
+
+    # --- GICP (Optimisation Grotte) ---  
+    odom/gicp/minNumPoints: 100
+    odom/gicp/kCorrespondences: 20
+    odom/gicp/maxCorrespondenceDistance: 1.0
+    odom/gicp/maxIterations: 100
+    odom/gicp/transformationEpsilon: 0.001
+    odom/gicp/rotationEpsilon: 0.0001
+    odom/gicp/initLambdaFactor: 1e-9
+
+    # --- Sous-cartes ---
+    odom/submap/keyframe/knn: 50
+    odom/submap/keyframe/kcv: 50
+    odom/submap/keyframe/kcc: 50
+
+    # --- Filtre Géométrique ---
+    odom/geo/Kp: 4.0
+    odom/geo/Kv: 2.0
+    odom/geo/Kq: 2.0
+    odom/geo/Kab: 1.0
+    odom/geo/Kgb: 1.0
+    odom/geo/abias_max: 4.0
+    odom/geo/gbias_max: 0.5

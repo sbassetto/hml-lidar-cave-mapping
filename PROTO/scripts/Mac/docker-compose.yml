@@ -5,9 +5,9 @@ services:
     container_name: hml_lidar_reva
     image: hml-lidar-reva:local
 
-    build:
-      context: .
-      dockerfile: Dockerfile
+      build:
+        context: ../..
+        dockerfile: scripts/Mac/Dockerfile
 
     # RevA field-processing environment was validated on amd64.
     # On Apple Silicon, Docker Desktop will run this image through emulation.

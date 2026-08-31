@@ -61,6 +61,18 @@ ensure_docker() {
 
     echo "Docker opérationnel."
 
+    # Remove a stale container created by an older Compose project if it
+    # occupies the fixed RevA container name. This can happen after changing
+    # the Compose project name (for example, from "mac" to "hml-lidar-reva").
+    EXISTING_CONTAINER="$(docker ps -aq -f "name=^/${CONTAINER_NAME}$" | head -n 1 || true)"
+    CURRENT_COMPOSE_CONTAINER="$(docker compose ps -aq ros2_processing 2>/dev/null | head -n 1 || true)"
+
+    if [ -n "$EXISTING_CONTAINER" ] && [ "$EXISTING_CONTAINER" != "$CURRENT_COMPOSE_CONTAINER" ]; then
+        echo "Ancien conteneur RevA détecté hors du projet Compose courant."
+        echo "Suppression du conteneur obsolète (les images et les données hôte sont conservées)..."
+        docker rm -f "$EXISTING_CONTAINER" >/dev/null
+    fi
+
     # Compose uses HML_RAW_DIR/HML_RESULTS_DIR to mount the real expedition data.
     docker compose up -d
 
@@ -288,6 +300,29 @@ traiter_un_bag() {
         echo "ERREUR : aucun fichier .db3 généré dans $output_host." >&2
         return 1
     fi
+
+    # Preserve the exact processing configuration used for this result.
+    # The configuration directory is mounted read-only from PROTO/configuration.
+    docker exec "$CONTAINER_NAME" bash -lc "
+        cp -f '$PARAMS_FILE' '$output_container/params_used.yaml'
+        PARAMS_SHA256=\$(sha256sum '$PARAMS_FILE' | awk '{print \$1}')
+        {
+          echo 'HML-LiDAR processing provenance'
+          echo 'software_revision=RevA'
+          echo 'source_bag=$bag_name'
+          echo 'output_bag=$output_name'
+          echo 'params_file=$PARAMS_FILE'
+          echo \"params_sha256=\$PARAMS_SHA256\"
+          echo 'dlio_commit=c8acc37100e349d70a9d8432d656cbce7e5072cd'
+          echo \"processed_utc=\$(date -u '+%Y-%m-%dT%H:%M:%SZ')\"
+        } > '$output_container/processing_info.txt'
+    "
+
+    if [ ! -f "$output_host/params_used.yaml" ] || [ ! -f "$output_host/processing_info.txt" ]; then
+        echo "ERREUR : les informations de provenance n'ont pas été archivées." >&2
+        return 1
+    fi
+
 
     echo
     docker exec "$CONTAINER_NAME" bash -lc "
