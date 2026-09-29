@@ -37,7 +37,7 @@ Acquisition ROS2
 
 RevA is organized as a modular processing suite. Each stage produces explicit intermediate artifacts so that processing decisions remain traceable and, when necessary, revisable.
 
-1. **Transfer** — `0_mission_sync.sh` safely transfers raw ROS 2 acquisitions from the Raspberry Pi to the post-processing workstation. Remote source data are not deleted by default.
+1. **Transfer** — `0_mission_sync.sh` safely transfers raw ROS 2 acquisitions from the Raspberry Pi to the post-processing workstation. After a successful transfer, the source data are removed from the Raspberry Pi to free storage space. Deletion occurs only after the transfer completes successfully.
 
 2. **DLIO processing** — `1_traiter_bag.command` is the script that runs the field-tested Docker/ROS 2/DLIO environment, applies the selected parameter profile, and stores processing provenance with the results.
 
