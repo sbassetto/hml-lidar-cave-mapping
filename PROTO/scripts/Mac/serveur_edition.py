@@ -2,20 +2,12 @@
 import flask
 import threading
 import webbrowser
-import socket
 import numpy as np
 import open3d as o3d
 from pathlib import Path
 from werkzeug.serving import make_server
 from rosbags.highlevel import AnyReader
 from rosbags.typesys import Stores, get_typestore
-
-def trouver_port_libre():
-    """Trouve un port TCP local libre pour l'éditeur WebGL temporaire."""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.bind(("127.0.0.1", 0))
-        return sock.getsockname()[1]
-
 
 def extraire_nuage_pour_affichage(chemin_dossier_bag, taille_voxel=0.1):
     typestore = get_typestore(Stores.ROS2_HUMBLE)
@@ -60,9 +52,8 @@ class ServeurEditionGraphe(threading.Thread):
         self.dossier_connected = dossier_connected
         self.nouvelles_matrices = None
         
-        self.port = trouver_port_libre()
         self.app = flask.Flask(__name__)
-        self.serveur = make_server('127.0.0.1', self.port, self.app)
+        self.serveur = make_server('127.0.0.1', 5000, self.app)
         self.ctx = self.app.app_context()
         self.ctx.push()
 
@@ -73,7 +64,7 @@ class ServeurEditionGraphe(threading.Thread):
             <html lang="fr">
             <head>
                 <meta charset="UTF-8">
-                <title>Éditeur Manuel de Graphe Odométrique</title>
+                <title>Éditeur de Graphe Odométrique</title>
                 <style>
                     body { margin: 0; overflow: hidden; background-color: #050505; color: white; font-family: sans-serif; }
                     #canvas-container { width: 100vw; height: 100vh; }
@@ -116,7 +107,7 @@ class ServeurEditionGraphe(threading.Thread):
                     </div>
 
                     <div class="section">
-                        <h4>Jonction Pegar à réviser manuellement</h4>
+                        <h4>Jonction cinématique active</h4>
                         <select id="select-jonction" onchange="changerJonctionActive()"></select>
                     </div>
 
@@ -472,60 +463,18 @@ class ServeurEditionGraphe(threading.Thread):
 
         @self.app.route('/valider_graphe', methods=['POST'])
         def valider_graphe():
-            payload = flask.request.get_json(silent=True) or {}
-            donnees = payload.get('matrices')
-
-            if not isinstance(donnees, list):
-                return flask.jsonify({
-                    "status": "erreur",
-                    "message": "Liste de matrices absente ou invalide."
-                }), 400
-
-            if len(donnees) != len(self.matrices_relatives):
-                return flask.jsonify({
-                    "status": "erreur",
-                    "message": "Le nombre de jonctions retournées ne correspond pas au réseau Pegar."
-                }), 400
-
-            matrices_validees = []
-            for index, matrice_brute in enumerate(donnees):
-                try:
-                    matrice = np.asarray(matrice_brute, dtype=float)
-                except Exception:
-                    return flask.jsonify({
-                        "status": "erreur",
-                        "message": f"Jonction {index} : matrice illisible."
-                    }), 400
-
-                if matrice.shape != (4, 4) or not np.isfinite(matrice).all():
-                    return flask.jsonify({
-                        "status": "erreur",
-                        "message": f"Jonction {index} : matrice 4x4 invalide."
-                    }), 400
-
-                if not np.allclose(
-                    matrice[3, :],
-                    [0.0, 0.0, 0.0, 1.0],
-                    atol=1e-6
-                ):
-                    return flask.jsonify({
-                        "status": "erreur",
-                        "message": f"Jonction {index} : transformation homogène invalide."
-                    }), 400
-
-                matrices_validees.append(matrice)
-
-            self.nouvelles_matrices = matrices_validees
+            donnees = flask.request.json['matrices']
+            self.nouvelles_matrices = [np.array(m) for m in donnees]
             threading.Thread(target=self.serveur.shutdown).start()
             return flask.jsonify({"status": "succes"})
 
     def run(self):
-        print(f"[Microservice WebGL] Éditeur manuel de graphe actif sur le port {self.port}.")
+        print("[Microservice WebGL] Éditeur de graphe hiérarchique actif sur le port 5000.")
         self.serveur.serve_forever()
 
 def lancer_edition_multicouche(sequence, matrices_relatives, dossier_connected):
     serveur = ServeurEditionGraphe(sequence, matrices_relatives, dossier_connected)
     serveur.start()
-    webbrowser.open(f"http://127.0.0.1:{serveur.port}")
+    webbrowser.open("http://127.0.0.1:5000")
     serveur.join()
     return serveur.nouvelles_matrices

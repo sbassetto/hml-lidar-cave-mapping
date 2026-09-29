@@ -20,7 +20,7 @@ from scipy.spatial.transform import Rotation as R
 from serveur_alignement import obtenir_matrice_manuelle
 import traceback
 
-# Paramétrage de la résolution spatiale dissociée pour affichage et assemblage
+# Paramétrage de la résolution spatiale dissociée pour affichage et assemblage (11 dimensions originelles)
 TAILLE_VOXEL_ASSEMBLAGE = 0.02
 TAILLE_VOXEL_AFFICHAGE = 0.01
 
@@ -296,49 +296,16 @@ def assembler_nuages_sequentiellement(fichiers_db3, dossier_destination, callbac
                 
                 print(f"\nDéploiement de l'interface d'alignement manuel pour : {nom_segment_precedent} -> {nom_segment_actuel}")
                 
-                matrice_relative = obtenir_matrice_manuelle(
-                    ancrage_actuel,
-                    ancrage_precedent,
-                    duree_max_actuel,
-                    duree_max_precedent,
-                    recharger_nuages,
-                    limite_affichage
-                )
-
-                # RevA: "Exclure et Finaliser" returns the sentinel "IGNORER".
-                # Finalize the already validated network instead of trying to
-                # write/multiply that string as if it were a 4x4 matrix.
-                if isinstance(matrice_relative, str) and matrice_relative == "IGNORER":
-                    print(
-                        f"Segment {nom_segment_actuel} exclu par l'opérateur. "
-                        "Finalisation du réseau avec les segments déjà validés."
-                    )
-                    break
-
+                matrice_relative = obtenir_matrice_manuelle(ancrage_actuel, ancrage_precedent, duree_max_actuel, duree_max_precedent, recharger_nuages, limite_affichage)
+                
                 if matrice_relative is None:
-                    return None, None, None, (
-                        "Le serveur WebGL a échoué ou a été interrompu "
-                        "sans retourner de matrice."
-                    )
-
-                matrice_relative = np.asarray(matrice_relative, dtype=float)
-                if matrice_relative.shape != (4, 4) or not np.isfinite(matrice_relative).all():
-                    return None, None, None, (
-                        f"La transformation retournée pour {nom_segment_actuel} "
-                        "n'est pas une matrice homogène 4x4 valide."
-                    )
+                    return None, None, None, "Le serveur WebGL a échoué ou a été interrompu sans retourner de matrice."
 
                 np.savetxt(chemin_sauvegarde_matrice, matrice_relative)
-                sauvegarder_parametres_6dof(
-                    matrice_relative,
-                    chemin_sauvegarde_params
-                )
-
-                odometrie_absolue = np.dot(
-                    odometrie_absolue,
-                    matrice_relative
-                )
-
+                sauvegarder_parametres_6dof(matrice_relative, chemin_sauvegarde_params)
+                
+                odometrie_absolue = np.dot(odometrie_absolue, matrice_relative)
+                
             hash_segment = hashlib.md5(nom_segment_actuel.encode('utf-8')).hexdigest()
             fichier_matrice_abs = dossier_checkpoints / f"matrice_abs_{i}_{hash_segment}.txt"
             fichier_nuage_trans = dossier_checkpoints / f"nuage_trans_{i}_{hash_segment}.pcd"
@@ -374,12 +341,7 @@ class InterfacePegar(tk.Tk):
         self.geometry("950x950")
         self.configure(bg="#2d2d2d")
         
-        # RevA: processing directory configurable without editing the source.
-        # This matches docker-compose and 2_traiter_bag.command.
-        chemin_defaut = os.environ.get(
-            "HML_RESULTS_DIR",
-            str(Path.home() / "Desktop" / "Expedition_Data" / "results")
-        )
+        chemin_defaut = str(Path.home() / "Desktop" / "Expedition_Data" / "ros2_ws" / "results")
         self.dossier_source = tk.StringVar(value=chemin_defaut)
         self.dossier_destination = tk.StringVar(value=chemin_defaut)
         self.nom_archive_sortie = tk.StringVar(value="reseau_connecte")
