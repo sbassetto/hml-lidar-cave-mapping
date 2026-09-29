@@ -1,15 +1,8 @@
-# HML-LiDAR RevA
-# Cet outil réalise une récupération opérateur-guidée après divergence DLIO.
-# Il ne modifie pas les paramètres de DLIO "en cours de route".
-# Il prépare un nouveau bag brut avec un court intervalle stationnaire synthétique
-# afin de permettre une nouvelle initialisation lors du retraitement.
-
 # Fichier : EditeurTemporel_ZUPT.py
 import os
 import shutil
 import threading
 import webbrowser
-import socket
 import numpy as np
 import open3d as o3d
 from pathlib import Path
@@ -21,16 +14,7 @@ from rosbags.typesys import Stores, get_typestore
 from collections import deque
 import traceback
 
-TAILLE_VOXEL_PREVISUALISATION = 0.05
-
-
-def trouver_port_libre():
-    """Retourne un port TCP local libre pour le serveur WebGL temporaire."""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.bind(("127.0.0.1", 0))
-        return sock.getsockname()[1]
-
-
+TAILLE_VOXEL_PREVISUALISATION = 0.01
 
 class ServeurMontageZUPT(threading.Thread):
     def __init__(self, chemin_bag_traite, chemin_bag_raw):
@@ -43,8 +27,7 @@ class ServeurMontageZUPT(threading.Thread):
         self.geometrie_temporelle = {}
         
         self.app = flask.Flask(__name__)
-        self.port = trouver_port_libre()
-        self.serveur = make_server('127.0.0.1', self.port, self.app)
+        self.serveur = make_server('127.0.0.1', 5000, self.app)
         self.ctx = self.app.app_context()
         self.ctx.push()
         
@@ -297,7 +280,6 @@ class ServeurMontageZUPT(threading.Thread):
         type_lidar_ref = None
         type_imu_ref = None
         
-        ecrivain = None
         try:
             with AnyReader(chemins_db3_raw, default_typestore=typestore) as lecteur:
                 for connexion, timestamp, rawdata in lecteur.messages():
@@ -318,7 +300,7 @@ class ServeurMontageZUPT(threading.Thread):
                             
             if record_time_cut is None or not tampon_imu:
                 print("Erreur critique : Impossible d'atteindre la limite temporelle dans le fichier brut.")
-                self.serveur.shutdown()
+                os._exit(1)
                 
             msg_imu_gabarit = tampon_imu[-1]
             gravite_x = np.mean([m.linear_acceleration.x for m in tampon_imu])
@@ -388,10 +370,9 @@ class ServeurMontageZUPT(threading.Thread):
             print(f"\nERREUR CRITIQUE PENDANT LA GÉNÉRATION : {str(e)}")
             traceback.print_exc()
         finally:
-            if ecrivain is not None:
-                ecrivain.close()
+            ecrivain.close()
             print(f"L'archive est découpée et prête pour le relancement de DLIO : {chemin_sortie}")
-            self.serveur.shutdown()
+            os._exit(0)
 
 if __name__ == "__main__":
     print("--- ENVIRONNEMENT DE COUPE ZUPT ASSISTÉ ---")
@@ -401,7 +382,7 @@ if __name__ == "__main__":
     if os.path.exists(chemin_traite) and os.path.exists(chemin_raw):
         serveur = ServeurMontageZUPT(chemin_traite, chemin_raw)
         serveur.start()
-        webbrowser.open(f"http://127.0.0.1:{serveur.port}")
+        webbrowser.open("http://127.0.0.1:5000")
         serveur.join()
     else:
         print("Erreur : L'un des répertoires spécifiés est introuvable sur le volume de stockage.")
