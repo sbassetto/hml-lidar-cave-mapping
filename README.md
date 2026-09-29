@@ -15,23 +15,23 @@ This repository provides an open-source workflow for affordable and reproducible
 The workflow covers the complete chain from field acquisition to topographic export:
 
 ```text
-Helmet-mounted Livox Mid-360 + IMU
-        ↓
-Raspberry Pi 4 / ROS2 acquisition
-        ↓
-ROS2 bag files
-        ↓
-Transfer to post-processing computer
-        ↓
-Docker / ROS2 Humble / DLIO
-        ↓
-set of {Registered point cloud and trajectory}
-        ↓
-{PCD point cloud export}
-        ↓
-Clever merge of multiple-recording session - generation of new trajectory and point cloud
-        ↓
-VisualTopo-compatible .tro export
+
+Acquisition ROS2
+    ↓
+1. Transfer
+    ↓
+2. DLIO processing
+    ↓
+3. Optional ZUPT recovery
+    ↓
+4. Pegar
+    ↓
+5. Network editor
+    ↓
+6. Point-cloud annotation
+    ↓
+7. .tro topographic extraction
+
 
 ## Online point-cloud visualization
 
