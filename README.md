@@ -15,7 +15,6 @@ This repository provides an open-source workflow for affordable and reproducible
 The workflow covers the complete chain from field acquisition to topographic export:
 
 ```text
-
 Acquisition ROS2
     ↓
 1. Transfer
@@ -31,7 +30,7 @@ Acquisition ROS2
 6. Point-cloud annotation
     ↓
 7. .tro topographic extraction
-
+```
 
 ## Online point-cloud visualization
 
