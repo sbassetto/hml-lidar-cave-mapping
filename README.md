@@ -33,6 +33,25 @@ Acquisition ROS2
 7. .tro topographic extraction
 ```
 
+## Software workflow
+
+RevA is organized as a modular processing suite. Each stage produces explicit intermediate artifacts so that processing decisions remain traceable and, when necessary, revisable.
+
+1. **Transfer** — `0_mission_sync.sh` safely transfers raw ROS 2 acquisitions from the Raspberry Pi to the post-processing workstation. Remote source data are not deleted by default.
+
+2. **DLIO processing** — `1_traiter_bag.command` is the script that runs the field-tested Docker/ROS 2/DLIO environment, applies the selected parameter profile, and stores processing provenance with the results.
+
+3. **Optional ZUPT-assisted restart** — `2_update_bag_EditeurTemporel_ZUPT.py` allows an operator to identify a temporal restart point and generate a new raw continuation with a synthetic stationary initialization interval for DLIO reprocessing.
+
+4. **Pegar multi-session registration** — `Pegar.py` and '3_LancerPegar.command' provides operator-guided rigid registration of independently processed cave sessions using natural geometric overlap. Accepted transformations are stored explicitly and propagated through the connected sequence.
+
+5. **Network revision** — `EditeurReseau.py` and '4_LancerEditeur.command' allows a previously accepted Pegar junction to be reopened and adjusted. The revised transformation is then propagated through downstream segments to generate a new network version.
+
+6. **Point-cloud annotation** — '5-VisualisateurTopographiqueWithDensity.py' is the annotation tool is used to identify uncertain, incomplete, or low-density regions of the reconstructed point cloud without modifying the original LiDAR measurements.
+
+7. **Topographic extraction** — `6_ExtracteurTopographique.py` converts the connected trajectory and point cloud into a VisualTopo-compatible `.tro` file by generating stations, LRUD measurements, and radial splay observations.
+
+
 ## Online point-cloud visualization
 
 HML-LiDAR `.pcd` outputs can also be inspected in a browser using
