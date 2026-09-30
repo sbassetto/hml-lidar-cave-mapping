@@ -17,7 +17,7 @@ A single raw HML-LiDAR acquisition may cross substantially different cave
 morphologies.
 
 During post-processing, the operator may identify an odometric divergence or
-a transition between morphological regimes using `EditeurTemporel_ZUPT.py`.
+a transition between morphological regimes using `2_update_bag_EditeurTemporel_ZUPT.py`.
 
 The tool generates a new raw ROS 2 bag beginning with a synthetic stationary
 initialization interval. DLIO can then be restarted on this portion of the
