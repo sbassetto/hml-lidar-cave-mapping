@@ -28,3 +28,10 @@ parameters without modifying the original field acquisition.
 
 The parameter adaptation is not performed automatically online during a
 single DLIO execution.
+
+`1_traiter_bag.command` uses the active `cfg/params.yaml` file and does not
+automatically select one of the profiles stored in this directory.
+
+To use a specific field-tested profile, the operator must make that profile
+the active `cfg/params.yaml` before launching DLIO processing and record which
+profile was used for the processed segment.
