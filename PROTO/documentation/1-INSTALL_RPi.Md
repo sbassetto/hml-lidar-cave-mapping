@@ -1,3 +1,4 @@
+# English Version
 # Guide 1: Initial Raspberry Pi Installation and Configuration
 ## Ubuntu 22.04 LTS 64-bit
 
@@ -47,7 +48,7 @@ sudo iw dev wlan0 set power_save off
 The Raspberry Pi is now ready for the ROS 2 installation described in 2-INSTALL_ROS2.md.
 
 
-# Translation in French
+# French version
 # Guide 1 : Installation et Configuration Initiale du Raspberry Pi (Ubuntu 22.04 LTS 64-bit)
 
 Ce guide détaille l'installation d'un système d'exploitation Linux 64-bit propre sur le Raspberry Pi de Chinook, optimisé pour l'utilisation de ROS 2 Humble.
