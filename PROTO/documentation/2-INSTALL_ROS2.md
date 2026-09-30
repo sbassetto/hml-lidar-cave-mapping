@@ -130,10 +130,6 @@ during compilation.
 ---
 
 # Version française
-
-
-# French Version
-
 # Guide 2 : Installation de ROS 2 Humble et Configuration du SWAP
 
 Ce guide explique comment installer ROS 2 Humble sur le Raspberry Pi et détaille l'astuce indispensable du SWAP pour permettre la compilation de gros packages (comme DLIO ou Livox) sans faire planter le Pi par manque de RAM.
