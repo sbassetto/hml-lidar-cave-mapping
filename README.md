@@ -43,11 +43,11 @@ RevA is organized as a modular processing suite. Each stage produces explicit in
 
 3. **Optional ZUPT-assisted restart** — `2_update_bag_EditeurTemporel_ZUPT.py` allows an operator to identify a temporal restart point and generate a new raw continuation with a synthetic stationary initialization interval for DLIO reprocessing.
 
-4. **Pegar multi-session registration** — `Pegar.py` and '3_LancerPegar.command' provides operator-guided rigid registration of independently processed cave sessions using natural geometric overlap. Accepted transformations are stored explicitly and propagated through the connected sequence.
+4. **Pegar multi-session registration** — `Pegar.py` and `3_LancerPegar.command` provide operator-guided rigid registration of independently processed cave sessions using natural geometric overlap. Accepted transformations are stored explicitly and propagated through the connected sequence.
 
-5. **Network revision** — `EditeurReseau.py` and '4_LancerEditeur.command' allows a previously accepted Pegar junction to be reopened and adjusted. The revised transformation is then propagated through downstream segments to generate a new network version.
+5. **Network revision** — `EditeurReseau.py` and `4_LancerEditeur.command` allow a previously accepted Pegar junction to be reopened and adjusted. The revised transformation is then propagated through downstream segments to generate a new network version.
 
-6. **Point-cloud annotation** — '5-VisualisateurTopographiqueWithDensity.py' is the annotation tool is used to identify uncertain, incomplete, or low-density regions of the reconstructed point cloud without modifying the original LiDAR measurements.
+6. **Point-cloud annotation** — `5-VisualisateurTopographiqueWithDensity.py` is used to identify uncertain, incomplete, or low-density regions of the reconstructed point cloud without modifying the original LiDAR measurements.
 
 7. **Topographic extraction** — `6_ExtracteurTopographique.py` converts the connected trajectory and point cloud into a VisualTopo-compatible `.tro` file by generating stations, LRUD measurements, and radial splay observations.
 
