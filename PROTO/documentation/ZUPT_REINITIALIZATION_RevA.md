@@ -7,7 +7,7 @@ HML-LiDAR RevA includes an operator-guided post-processing mechanism designed fo
 1. recovery after a visually identified DLIO odometry divergence; and
 2. deliberate transition between DLIO parameter sets when a continuous cave acquisition crosses markedly different geometric regimes.
 
-The mechanism is implemented by `EditeurTemporel_ZUPT.py` and is intended for **a-posteriori reprocessing**. It does not change DLIO parameters online during a running odometry process.
+The mechanism is implemented by '2_update_bag_EditeurTemporel_ZUPT.py' and is intended for **a-posteriori reprocessing**. It does not change DLIO parameters online during a running odometry process.
 
 ## Terminology
 
@@ -133,7 +133,7 @@ acceptable? ─────────────── yes ──────
         │                                      │
         no / morphology transition             │
         ↓                                      │
-EditeurTemporel_ZUPT                           │
+2_update_bag_EditeurTemporel_ZUPT.py                           │
         ↓                                      │
 operator selects temporal cut                  │
         ↓                                      │
@@ -156,7 +156,8 @@ connected cave survey
 
 ## Reproducibility
 
-HML-LiDAR RevA stores the parameter file used for each completed DLIO treatment as `params_used.yaml`, together with processing provenance. This makes the piecewise parameterization auditable: each processed segment can be associated with the exact configuration that generated it.
+Field-tested DLIO parameter profiles are preserved in `PROTO/configuration/dlio_profiles/`. The current RevA processing script uses the active DLIO `params.yaml` at process initialization. The script does not automatically archive a `params_used.yaml` file with each processed result. Consequently, the parameter profile used for a given processing run must be recorded by the operator when several profiles are used for piecewise a-posteriori reprocessing.
+
 
 The repository also includes the field-tested DLIO source overlay used to compile the RevA processing image, so that the parameter-loading behavior used during the reported field workflow can be reconstructed.
 
