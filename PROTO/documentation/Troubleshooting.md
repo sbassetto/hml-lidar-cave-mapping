@@ -1,3 +1,117 @@
+# English version
+
+# HML-LiDAR RevA — Troubleshooting and Command Reference
+
+This document provides a compact set of diagnostic commands used during
+HML-LiDAR field preparation and post-processing.
+
+## 1. Connect to Chinook
+
+Connect to the Raspberry Pi using SSH:
+
+```bash
+ssh $RP_USER@$RP_HOST
+```
+
+For the prototype installation, the configured password was:
+
+```text
+chinook
+```
+
+## 2. Docker diagnostics
+
+### Check container status
+
+```bash
+docker ps -a | grep $CONTAINER_NAME
+```
+
+### Check available storage space inside the container
+
+```bash
+docker exec -it $CONTAINER_NAME df -h /root
+```
+
+## 3. ROS 2 diagnostics
+
+### List active ROS 2 topics
+
+Run from the processing workstation:
+
+```bash
+docker exec -it $CONTAINER_NAME bash -ic 'source /opt/ros/humble/setup.bash && ros2 topic list'
+```
+
+### Check LiDAR topic frequency
+
+```bash
+docker exec -it $CONTAINER_NAME bash -ic 'source /opt/ros/humble/setup.bash && ros2 topic hz /livox/lidar'
+```
+
+### Check odometry frequency
+
+```bash
+docker exec -it $CONTAINER_NAME bash -ic 'source /opt/ros/humble/setup.bash && ros2 topic hz /odom'
+```
+
+## 4. DLIO state
+
+### Display the current XYZ odometry state
+
+```bash
+docker exec -it $CONTAINER_NAME bash -ic 'source /opt/ros/humble/setup.bash && ros2 topic echo /odom --once'
+```
+
+### Stop ROS processes inside the container
+
+```bash
+docker exec -it $CONTAINER_NAME pkill -9 -f ros
+```
+
+## 5. Cave Explorer diagnostic
+
+To inspect the current odometry state:
+
+```bash
+ros2 topic echo /odom --once
+```
+
+If the Z coordinate changes while the helmet remains stationary, the gravity
+initialization or calibration should be inspected.
+
+## 6. Chinook data cleaning
+
+The prototype used the following SSH command to remove acquisition files from
+the configured Raspberry Pi data directory:
+
+```bash
+ssh $RP_USER@$RP_HOST 'sudo rm -rf ${RP_PATH}*'
+```
+
+In the normal RevA transfer workflow, remote-data removal is handled by the
+transfer procedure after a successful transfer.
+
+## 7. Replay another recording
+
+The following shell loop can be used to display replay commands for recordings
+other than the last processed bag:
+
+```bash
+for folder in "$RAW_DIR"/*/; do
+    [ -e "$folder" ] || continue
+    BN=$(basename "$folder")
+    if [ "$BN" != "$LAST_BAG_NAME" ]; then
+        echo "   -> $BN :"
+        echo "      docker exec -it $CONTAINER_NAME bash -ic 'source /opt/ros/humble/setup.bash && ros2 bag play $DOCKER_PATH/$BN --clock -r 0.05 --loop'"
+    fi
+done
+```
+
+---
+
+# Version française / original field notes
+
 # 📋 COMMAND MEMENTO                   
 
 🛰️  CONNEXION CHINOOK :" 
