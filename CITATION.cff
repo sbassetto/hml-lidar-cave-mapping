@@ -1,26 +1,35 @@
 cff-version: 1.2.0
 message: "If you use this software or workflow, please cite it using the metadata below."
-title: "HML-LiDAR Cave Mapping: An Open-Source Helmet-Mounted LiDAR Workflow for Cave Documentation"
+
+title: "HML-LiDAR Cave Mapping"
 type: software
 
 authors:
   - family-names: Bassetto
     given-names: Samuel
-    affiliation: "Polytechnique Montréal"
+    affiliation: "Polytechnique Montréal, LABAC"
   - family-names: Beltrame
     given-names: Giovanni
     affiliation: "Polytechnique Montréal"
 
-abstract: "HML-LiDAR Cave Mapping provides an open-source workflow for helmet-mounted LiDAR cave documentation. The workflow combines ROS2 bag acquisition, Livox Mid-360 LiDAR/IMU data, DLIO LiDAR-inertial odometry, Docker-based post-processing, point-cloud export to PCD, and conversion to VisualTopo-compatible .tro files."
+abstract: >-
+  HML-LiDAR is an open-source helmet-mounted LiDAR/IMU workflow for cave
+  mapping. RevA combines ROS 2 field acquisition using a Livox Mid-360 and
+  Raspberry Pi, DLIO LiDAR-inertial post-processing, optional retrospective
+  ZUPT-assisted reinitialization, operator-guided multi-session registration
+  with Pegar, revisable network assembly, point-cloud inspection and
+  annotation, and VisualTopo-compatible topographic export.
 
 keywords:
   - cave mapping
   - speleology
   - LiDAR
-  - SLAM
-  - ROS2
+  - LiDAR-inertial odometry
+  - ROS 2
   - DLIO
   - point cloud
+  - multi-session registration
+  - Pegar
   - VisualTopo
   - open-source hardware
   - reproducible workflow
@@ -28,12 +37,12 @@ keywords:
 license: MIT
 repository-code: "https://github.com/sbassetto/hml-lidar-cave-mapping"
 
-version: "0.1.0-alpha"
-date-released: "2026-06-10"
+version: "RevA"
+date-released: "2026-09-29"
 
 preferred-citation:
   type: article
-  title: "An Open-Source Helmet-Mounted LiDAR Workflow for Cave Mapping and Topographic Export"
+  title: "HML-LiDAR: a field-matured, operator-guided LiDAR-inertial workflow for cave mapping with revisable multi-session registration"
   authors:
     - family-names: Bassetto
       given-names: Samuel
