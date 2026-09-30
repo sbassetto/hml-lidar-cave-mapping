@@ -39,7 +39,7 @@ RevA is organized as a modular processing suite. Each stage produces explicit in
 
 1. **Transfer** — `0_mission_sync.sh` safely transfers raw ROS 2 acquisitions from the Raspberry Pi to the post-processing workstation. After a successful transfer, the source data are removed from the Raspberry Pi to free storage space. Deletion occurs only after the transfer completes successfully.
 
-2. **DLIO processing** — `1_traiter_bag.command` is the script that runs the field-tested Docker/ROS 2/DLIO environment, applies the selected parameter profile, and stores processing provenance with the results.
+2. **DLIO processing** — `1_traiter_bag.command` runs the Docker/ROS 2/DLIO post-processing environment on a selected ROS 2 bag, or sequentially on the bags available in the local raw-data directory, using the active DLIO `params.yaml`. The processed ROS 2 topics are recorded into a new result bag for subsequent inspection and multi-session processing.
 
 3. **Optional ZUPT-assisted restart** — `2_update_bag_EditeurTemporel_ZUPT.py` allows an operator to identify a temporal restart point and generate a new raw continuation with a synthetic stationary initialization interval for DLIO reprocessing.
 
