@@ -35,3 +35,13 @@ automatically select one of the profiles stored in this directory.
 To use a specific field-tested profile, the operator must make that profile
 the active `cfg/params.yaml` before launching DLIO processing and record which
 profile was used for the processed segment.
+
+The RevA processing environment distinguishes between the fixed DLIO configuration and the field-processing parameter profiles.
+
+dlio.yaml documents the baseline DLIO configuration associated with the RevA software build. It is part of the fixed RevA processing environment and is not intended to be modified or exchanged between processing runs. Its purpose is to preserve the configuration associated with the DLIO implementation used for RevA and to make the software environment reproducible.
+
+params.yaml, in contrast, contains the processing parameters used when running dlio_odom_node. This file may be replaced by one of the field-tested parameter profiles stored in dlio_profiles/ when reprocessing a segment of an acquisition.
+
+The parameter profiles therefore represent operator-selected post-processing configurations, whereas dlio.yaml represents the fixed baseline configuration of the RevA DLIO implementation.
+
+The profiles do not modify dlio.yaml and do not imply that the fixed DLIO configuration is changed during processing.
