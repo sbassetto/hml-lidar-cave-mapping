@@ -89,26 +89,26 @@ traiter_un_bag() {
 
     # T1 : DLIO (Odométrie)
     osascript -e "tell application \"Terminal\"
-        set t1 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T1\\\\a\\\\e]2;T1 : DLIO ODOM\\\\a\\\"; source /opt/ros/humble/setup.bash && source $ROS_WS/install/setup.bash && ros2 run direct_lidar_inertial_odometry dlio_odom_node --ros-args --params-file $ROS_WS/src/direct_lidar_inertial_odometry/cfg/params.yaml -p use_sim_time:=true --remap pointcloud:=/livox/lidar --remap imu:=/livox/imu'\"
+        set t1 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T1\\\\a\\\\e]2;T1 : DLIO ODOM\\\\a\\\"; source /opt/ros/humble/setup.bash && source $SOFTWARE_SETUP && ros2 run direct_lidar_inertial_odometry dlio_odom_node --ros-args --params-file $PARAMS_FILE -p use_sim_time:=true --remap pointcloud:=/livox/lidar --remap imu:=/livox/imu'\"
         set custom title of t1 to \"T1 : DLIO ODOM\"
     end tell"
 
-    # T3 : ROSBRIDGE (Serveur WebSocket)
+   # T3 : ROSBRIDGE
     osascript -e "tell application \"Terminal\"
-        set t3 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T3\\\\a\\\\e]2;T3 : BRIDGE\\\\a\\\"; source /opt/ros/humble/setup.bash && source $ROS_WS/install/setup.bash && ros2 launch rosbridge_server rosbridge_websocket_launch.xml'\"
+        set t3 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T3\\\\a\\\\e]2;T3 : BRIDGE\\\\a\\\"; source /opt/ros/humble/setup.bash && source $SOFTWARE_SETUP && ros2 launch rosbridge_server rosbridge_websocket_launch.xml'\"
         set custom title of t3 to \"T3 : BRIDGE\"
     end tell"
 
-    # T5 : RECORD (Enregistrement pur des topics)
+   # T5 : RECORD
     osascript -e "tell application \"Terminal\"
-        set t5 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T5\\\\a\\\\e]2;T5 : RECORD\\\\a\\\"; source /opt/ros/humble/setup.bash && source $ROS_WS/install/setup.bash && cd $ROS_WS/results && rm -rf $OUTPUT_BAG_NAME && echo 🔴 ENREGISTREMENT EN COURS... && ros2 bag record -a -o $OUTPUT_BAG_NAME --storage sqlite3'\"
+        set t5 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T5\\\\a\\\\e]2;T5 : RECORD\\\\a\\\"; source /opt/ros/humble/setup.bash && source $SOFTWARE_SETUP && cd $ROS_RESULTS_DIR && rm -rf $OUTPUT_BAG_NAME && echo 🔴 ENREGISTREMENT EN COURS... && ros2 bag record -a -o $OUTPUT_BAG_NAME --storage sqlite3'\"
         set custom title of t5 to \"T5 : RECORD\"
     end tell"
 
-    # T2 : PLAY (Lecture de l'archive via le chemin interne calculé)
+    # T2 : PLAY
     osascript -e "tell application \"Terminal\"
-        set t2 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T2\\\\a\\\\e]2;T2 : PLAY\\\\a\\\"; sleep 3 && source /opt/ros/humble/setup.bash && source $ROS_WS/install/setup.bash && ros2 bag play $DOCKER_BAG_PATH --clock -r 0.1 --delay 5'\"
-        set custom title of t2 to \"T2 : PLAY\"
+       set t2 to do script \"docker exec -it $CONTAINER_NAME bash -ic 'printf \\\"\\\\e]1;T2\\\\a\\\\e]2;T2 : PLAY\\\\a\\\"; sleep 3 && source /opt/ros/humble/setup.bash && source $SOFTWARE_SETUP && ros2 bag play $DOCKER_BAG_PATH --clock -r 0.1 --delay 5'\"
+       set custom title of t2 to \"T2 : PLAY\"
     end tell"
 
     echo ""
