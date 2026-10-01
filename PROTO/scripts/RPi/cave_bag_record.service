@@ -1,0 +1,33 @@
+# /etc/systemd/system/cave_bag_record.service
+[Unit]
+Description=ROS 2 Bag Recorder for Cave Data (in livox container)
+# On attend que le réseau et le driver Docker soient prêts
+After=network.target docker.service backpack-driver.service
+Requires=docker.service backpack-driver.service
+
+[Service]
+Type=simple
+User=root
+# Création du dossier si inexistant (chemin absolu obligatoire)
+ExecStartPre=/bin/mkdir -p /home/samuel/Cave_explorer/data/cave_data
+# Délai indispensable pour laisser le conteneur 'livox' passer en état 'Up' au démarrage
+ExecStartPre=/bin/sleep 15
+# Utilisation de 'docker exec' avec le nom exact du conteneur pour plus de fiabilité
+ExecStart=/usr/bin/docker exec -t cave_explorer-livox-1 \
+  bash -c 'source /opt/ros/humble/setup.bash && \
+    source /dev_ws/install/setup.bash && \
+    ros2 bag record \
+      -o /data/cave_data/cave_bag_$(date +%%Y-%%m-%%d_%%H-%%M-%%S) \
+      /livox/lidar \
+      /livox/imu'
+
+# Arrêt propre avec le signal INT pour ne pas corrompre le fichier .mcap
+ExecStop=/usr/bin/docker exec -t cave_explorer-livox-1 pkill -INT ros2
+KillSignal=SIGINT
+TimeoutStopSec=20
+# Relance automatique si le démarrage échoue (ex: docker encore trop lent)
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Service de monitoring du bouton Lidar
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/samuel/Cave_explorer/switch2.py
+WorkingDirectory=/home/samuel/Cave_explorer
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

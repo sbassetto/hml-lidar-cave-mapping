@@ -1,0 +1,27 @@
+# /etc/systemd/system/backpack-driver.service
+[Unit]
+Description=Backpack Docker Driver Service
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Run as the user 'backpack' to avoid permission issues in the home directory
+User=samuel
+Group=samuel
+WorkingDirectory=/home/samuel/Cave_explorer/
+
+# Startup: Remove old containers (optional but safer) and bring up the new ones
+ExecStartPre=-/usr/bin/docker compose down
+ExecStart=/usr/bin/docker compose up --remove-orphans
+
+# Shutdown: Gracefully stop and remove containers
+ExecStop=/usr/bin/docker compose down
+
+# Restart policy: If it crashes, wait 10s and restart
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
