@@ -130,6 +130,42 @@ sudo systemctl restart cave_bag_record.service
 These commands are useful for diagnosing sensor-driver or hardware-switch
 problems during field preparation.
 
+Raspberry Pi boot
+    ↓
+switch2.service  [enabled]
+    ↓
+switch2.py
+    GPIO 4
+    pull_up=True
+    debounce=0.5 s
+    ↓
+switch ON
+    ├─ start backpack-driver.service
+    │      ↓
+    │   docker compose up
+    │      ↓
+    │   cave_explorer-livox-1
+    │
+    └─ start cave_bag_record.service
+           ↓
+        wait 15 s
+           ↓
+        ros2 bag record
+        /livox/lidar
+        /livox/imu
+
+switch OFF
+    ↓
+stop cave_bag_record.service
+    ↓
+SIGINT → finalisation du bag
+    ↓
+wait 10 s
+    ↓
+stop backpack-driver.service
+    ↓
+docker compose down
+
 ---
 
 # Version française
@@ -230,3 +266,39 @@ sudo journalctl -u cave_bag_record.service -f
 ```bash
 sudo systemctl restart cave_bag_record.service
 ```
+
+Raspberry Pi boot
+    ↓
+switch2.service  [enabled]
+    ↓
+switch2.py
+    GPIO 4
+    pull_up=True
+    debounce=0.5 s
+    ↓
+switch ON
+    ├─ start backpack-driver.service
+    │      ↓
+    │   docker compose up
+    │      ↓
+    │   cave_explorer-livox-1
+    │
+    └─ start cave_bag_record.service
+           ↓
+        wait 15 s
+           ↓
+        ros2 bag record
+        /livox/lidar
+        /livox/imu
+
+switch OFF
+    ↓
+stop cave_bag_record.service
+    ↓
+SIGINT → finalisation du bag
+    ↓
+wait 10 s
+    ↓
+stop backpack-driver.service
+    ↓
+docker compose down
