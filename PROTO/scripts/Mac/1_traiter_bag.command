@@ -18,6 +18,13 @@ ROS_RESULTS_DIR="/root/ros2_ws/results"
 SOFTWARE_SETUP=""
 PARAMS_FILE=""
 
+# --- START THE SELECTED CONTAINER IF NEEDED ---
+if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+    echo "Container $CONTAINER_NAME is stopped. Starting it..."
+    docker start "$CONTAINER_NAME"
+    sleep 3
+fi
+
 # --- DETECTION OF THE CONTAINER SOFTWARE LAYOUT ---
 # RevA stores the compiled software stack inside /opt/hml_ws and mounts the
 # published configuration read-only under /root/hml/config.
