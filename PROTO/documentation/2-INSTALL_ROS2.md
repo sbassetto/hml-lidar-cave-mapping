@@ -53,7 +53,7 @@ sudo nano /etc/fstab
 
 Add the following line at the end of the file:
 
-```text
+```bash
 /swapfile none swap sw 0 0
 ```
 
@@ -72,7 +72,7 @@ free -h
 ```bash
 sudo apt update && sudo apt install locales
 sudo locale-gen en_US en_US.UTF-8
-sudo update-locale lcl_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
 ```
 
@@ -87,7 +87,7 @@ Install `curl` and retrieve the ROS 2 GPG key:
 
 ```bash
 sudo apt update && sudo apt install curl -y
-sudo curl -sSL https://raw.githubusercontent.com/ros2/rosdn/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 ```
 
 Add the ROS 2 repository:
@@ -180,7 +180,7 @@ sudo nano /etc/fstab
 # Vérifie que tes 4 Go de SWAP sont bien actifs avec la commande : 
 
 ```bash
-free -h.
+free -h
 ```
 
 # 2. Installation de ROS 2 Humble
@@ -203,7 +203,7 @@ sudo add-apt-repository universe -y
 # Ajout de la clé GPG
 ```bash
 sudo apt update && sudo apt install curl -y
-sudo curl -sSL [https://raw.githubusercontent.com/ros2/rosdn/master/ros.key](https://raw.githubusercontent.com/ros2/rosdn/master/ros.key) -o /usr/share/keyrings/ros-archive-keyring.gpg
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 ```
 
 # Ajout du dépôt officiel aux sources
@@ -228,4 +228,9 @@ echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-# ROS 2 est installé. Tu peux maintenant cloner tes workspaces dans /home/samuel/Cave_explorer/ros2_ws et compiler en toute sécurité grâce au SWAP. Tu prendras la peine de nommer d'autres liens que /samuel/ ... tu utiliseras ton ${USER} !
+# ROS 2 est installé. 
+
+Tu peux maintenant cloner tes workspaces dans, par exemple, 
+```text
+/home/${USER}/Cave_explorer/ros2_ws
+```

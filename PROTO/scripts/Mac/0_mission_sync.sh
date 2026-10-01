@@ -25,7 +25,7 @@ fi
 
 # --- 🚀 LANCEMENT DU CONTENEUR ---
 # On s'assure que le conteneur est allumé avant de continuer
-CONTAINER_NAME="cave_explorer_m4" 
+CONTAINER_NAME="hml-lidar_reva" 
 
 if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
     if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
@@ -75,6 +75,6 @@ echo "La synchronisation avec la plateforme Chinook est achevée."
 echo "Les archives brutes (.db3) sont stockées dans : $RAW_DIR"
 echo ""
 echo "PROCÉDURE DE POST-TRAITEMENT MANUEL :"
-echo "1. Exécutez le script 'traiter_bag.command' pour générer les odométries individuelles."
+echo "1. Exécutez le script '1traiter_bag.command' pour générer les odométries individuelles."
 echo "2. Exécutez le script '3_LancerPegar.command' pour assembler les segments traités."
 echo "--------------------------------------------------------------------------------"

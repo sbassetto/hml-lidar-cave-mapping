@@ -1,5 +1,6 @@
 from gpiozero import Button
 import subprocess
+import time
 from signal import pause
 import sys
 

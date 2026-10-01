@@ -8,7 +8,7 @@ Type=simple
 # Exécution avec les privilèges nécessaires pour accéder au bus GPIO
 User=root
 # Chemin absolu de l'interpréteur Python et du script de lecture (à adapter selon le déploiement)
-ExecStart=/usr/bin/python3 /opt/hml/button_daemon.py
+ExecStart=/usr/bin/python3 /opt/hml/switch2.py
 # Redémarrage automatique en cas de défaillance logicielle
 Restart=on-failure
 RestartSec=5
