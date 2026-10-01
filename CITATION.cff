@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software or workflow, please cite it using the metadata below."
+message: "If you use this software or workflow, please cite the HML-LiDAR Cave Mapping RevA release using the metadata below."
 
 title: "HML-LiDAR Cave Mapping"
 type: software
@@ -39,17 +39,3 @@ repository-code: "https://github.com/sbassetto/hml-lidar-cave-mapping"
 
 version: "RevA-v1.0.0"
 date-released: "2026-10-01"
-
-preferred-citation:
-  type: article
-  title: "HML-LiDAR: a field-matured, operator-guided LiDAR-inertial workflow for cave mapping with revisable multi-session registration"
-  authors:
-    - family-names: Bassetto
-      given-names: Samuel
-      affiliation: "Polytechnique Montréal, LABAC"
-    - family-names: Beltrame
-      given-names: Giovanni
-      affiliation: "Polytechnique Montréal"
-  journal: "International Journal of Speleology"
-  year: 2026
-  notes: "Manuscript in preparation."
