@@ -1,43 +1,6 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# --- 🐳 VÉRIFICATION ET LANCEMENT DE DOCKER ---
-echo "--- 🛠️ Vérification de l'état de Docker ---"
-
-if ! docker info >/dev/null 2>&1; then
-    echo "⚠️ Docker Desktop n'est pas lancé. Démarrage de l'application..."
-    open -a Docker
-    
-    COUNT=0
-    while ! docker info >/dev/null 2>&1; do
-        echo "   ⏳ En attente du moteur Docker... ($COUNT s)"
-        sleep 2
-        ((COUNT+=2))
-        if [ $COUNT -gt 60 ]; then
-            echo "❌ Erreur : Docker prend trop de temps à démarrer."
-            exit 1
-        fi
-    done
-    echo "✅ Docker est maintenant opérationnel."
-else
-    echo "✅ Docker est déjà actif."
-fi
-
-# --- 🚀 LANCEMENT DU CONTENEUR ---
-# On s'assure que le conteneur est allumé avant de continuer
-CONTAINER_NAME="hml-lidar_reva" 
-
-if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-    if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-        echo "📦 Démarrage du conteneur $CONTAINER_NAME..."
-        docker start $CONTAINER_NAME
-        sleep 2 
-    fi
-else
-    echo "❌ Erreur : Le conteneur $CONTAINER_NAME n'existe pas."
-    exit 1
-fi
-
 # --- CONFIGURATION LOCALE (Mac) ---
 RP_USER="samuel"
 RP_HOST="chinook.local" 
@@ -75,6 +38,6 @@ echo "La synchronisation avec la plateforme Chinook est achevée."
 echo "Les archives brutes (.db3) sont stockées dans : $RAW_DIR"
 echo ""
 echo "PROCÉDURE DE POST-TRAITEMENT MANUEL :"
-echo "1. Exécutez le script '1traiter_bag.command' pour générer les odométries individuelles."
+echo "1. Exécutez le script '1_traiter_bag.command' pour générer les odométries individuelles."
 echo "2. Exécutez le script '3_LancerPegar.command' pour assembler les segments traités."
 echo "--------------------------------------------------------------------------------"
