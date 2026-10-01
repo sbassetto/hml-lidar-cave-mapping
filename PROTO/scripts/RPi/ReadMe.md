@@ -16,7 +16,7 @@ has the appropriate execution permissions.
 For example:
 
 ```bash
-sudo chmod +x /opt/hml/button_daemon.py
+sudo chmod +x /home/samuel/Cave_explorer/switch2.py
 ```
 
 This command should be executed after copying the script to the Raspberry Pi
@@ -38,6 +38,48 @@ For the complete systemd configuration procedure, see:
 ../../documentation/3-INSTALL_SERVICES.md
 ```
 
+Raspberry Pi boot
+    ↓
+switch2.service  [enabled]
+    ↓
+switch2.py
+    GPIO 4
+    pull_up=True
+    debounce=0.5 s
+    ↓
+switch ON
+    ├─ start backpack-driver.service
+    │      ↓
+    │   docker compose up
+    │      ↓
+    │   cave_explorer-livox-1
+    │
+    └─ start cave_bag_record.service
+           ↓
+        wait 15 s
+           ↓
+        ros2 bag record
+        /livox/lidar
+        /livox/imu
+
+switch OFF
+    ↓
+stop cave_bag_record.service
+    ↓
+SIGINT → finalisation du bag
+    ↓
+wait 10 s
+    ↓
+stop backpack-driver.service
+    ↓
+docker compose down
+
+The same procedure is to do with 
+switch2.py
+switch2.service
+backpack-driver.service
+cave_bag_record.service
+
 ---
 
 ## Version française
@@ -56,7 +98,7 @@ doit être invoqué en arrière-plan par un service système.
 Par exemple :
 
 ```bash
-sudo chmod +x /opt/hml/button_daemon.py
+sudo chmod +x /home/samuel/Cave_explorer/switch2.py
 ```
 
 Cette instruction doit être exécutée après la copie du fichier
@@ -78,3 +120,45 @@ Pour la procédure complète de configuration des services systemd, voir :
 ```text
 ../../documentation/3-INSTALL_SERVICES.md
 ```
+
+Raspberry Pi boot
+    ↓
+switch2.service  [enabled]
+    ↓
+switch2.py
+    GPIO 4
+    pull_up=True
+    debounce=0.5 s
+    ↓
+switch ON
+    ├─ start backpack-driver.service
+    │      ↓
+    │   docker compose up
+    │      ↓
+    │   cave_explorer-livox-1
+    │
+    └─ start cave_bag_record.service
+           ↓
+        wait 15 s
+           ↓
+        ros2 bag record
+        /livox/lidar
+        /livox/imu
+
+switch OFF
+    ↓
+stop cave_bag_record.service
+    ↓
+SIGINT → finalisation du bag
+    ↓
+wait 10 s
+    ↓
+stop backpack-driver.service
+    ↓
+docker compose down
+
+La même procédure est à appliquer pour les services :
+switch2.py
+switch2.service
+backpack-driver.service
+cave_bag_record.service

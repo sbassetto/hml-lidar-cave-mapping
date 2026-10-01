@@ -30,7 +30,11 @@ def on_switch_open():
     subprocess.run(["sudo", "systemctl", "stop", "backpack-driver.service"])
     print("Services arrêtés proprement.")
 
-
+# --- SÉCURITÉ AU DÉMARRAGE ---
+if switch.is_pressed:
+    print("⚠️ Switch détecté sur ON au démarrage. En attente du passage sur OFF pour armer.")
+    switch.wait_for_release()
+    print("Système armé.")
 
 # Assignation des fonctions aux événements
 switch.when_pressed = on_switch_closed
