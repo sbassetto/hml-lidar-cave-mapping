@@ -35,3 +35,11 @@ automatically select one of the profiles stored in this directory.
 To use a specific field-tested profile, the operator must make that profile
 the active `cfg/params.yaml` before launching DLIO processing and record which
 profile was used for the processed segment.
+
+Validation of the parameter profiles
+
+The parameter profiles distributed with HML-LiDAR RevA were empirically tested during additional real-world cave processing experiments, including data acquired in the Saint-Léonard cave in Montréal, Québec, Canada.
+
+The Saint-Léonard dataset was used as a development and parameter-validation case but is not included in the RevA release and is not part of the datasets distributed with the repository.
+
+The parameter values provided here are therefore retained as field-tested configurations. They should not be interpreted as universally optimal settings for a given cave morphology. Their suitability depends on acquisition conditions, cave geometry, sensor motion, and the characteristics of the recorded point clouds.
