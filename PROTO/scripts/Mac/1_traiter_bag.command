@@ -1,5 +1,5 @@
 #!/bin/bash
-# Fichier : 2_traiter_bag.command
+# Fichier : 1_traiter_bag.command
 # Commande terminal pour le lancer et traiter un seul bag ou lancer l'interface graphique
 
 echo "=== DÉMARRAGE DU SCRIPT DE TRAITEMENT ==="
@@ -133,7 +133,7 @@ if [ -z "$1" ]; then
         tell application "System Events"
             activate
             try
-                set dialogResult to display dialog "Sélectionnez le mode de traitement odométrique :" buttons {"Quitter", "Traiter dossier /raw", "Sélectionner une archive"} default button "Sélectionner une archive" cancel button "Quitter" with title "FALAISE-LiDAR : Interface de Traitement"
+                set dialogResult to display dialog "Sélectionnez le mode de traitement odométrique :" buttons {"Quitter", "Traiter dossier /raw", "Sélectionner une archive"} default button "Sélectionner une archive" cancel button "Quitter" with title "HML-LiDAR RevA : Interface de Traitement"
                 return button returned of dialogResult
             on error
                 return "Quitter"
@@ -145,7 +145,7 @@ if [ -z "$1" ]; then
         echo "Mode lot sélectionné. Recherche automatique dans $RAW_DIR..."
         
         if [ ! -d "$RAW_DIR" ]; then
-            echo "Erreur critique : Le sous-dossier /raw/ est introuvable dans $BASE_DIR."
+            echo "Erreur critique : Le sous-dossier /raw/ est introuvable dans $RAW_DIR"
             exit 1
         fi
         
