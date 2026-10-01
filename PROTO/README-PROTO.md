@@ -11,4 +11,4 @@ The directory is organized into four main components:
 - `scripts/` — Raspberry Pi acquisition scripts and Mac-based post-processing tools;
 - `software/` — software components and RevA-specific DLIO modifications required for reproducibility.
 
-RevA should be considered a publication candidate and field-tested research prototype. The final archived RevA release will correspond to the version tagged and deposited with the associated scientific publication.
+RevA is the field-tested research prototype archived for the associated scientific publication. The `RevA-v1.0.0` release freezes the hardware, software, configuration files, scripts and technical documentation corresponding to the RevA reference workflow. This release documents a reproducible research prototype and does not constitute a metrological certification of the system.

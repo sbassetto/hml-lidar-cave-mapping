@@ -37,8 +37,8 @@ keywords:
 license: MIT
 repository-code: "https://github.com/sbassetto/hml-lidar-cave-mapping"
 
-version: "RevA"
-date-released: "2026-09-29"
+version: "RevA-v1.0.0"
+date-released: "2026-10-01"
 
 preferred-citation:
   type: article

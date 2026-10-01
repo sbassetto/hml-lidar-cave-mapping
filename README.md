@@ -6,8 +6,9 @@ Open-source helmet-mounted LiDAR/IMU workflow for cave mapping using a Livox Mid
 **Institution:** LABAC, Polytechnique Montréal  
 **Authors:** Samuel Bassetto; Giovanni Beltrame  
 **Revision:** RevA  
-**Status:** Publication candidate — field-tested prototype  
-**Date:** 2026-09-29
+**Release:** RevA-v1.0.0  
+**Status:** Field-tested research prototype — archived RevA release  
+**Date:** 2026-10-01
 
 ## Overview
 
