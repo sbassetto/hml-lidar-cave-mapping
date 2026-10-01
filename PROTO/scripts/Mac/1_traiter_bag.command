@@ -18,11 +18,37 @@ ROS_RESULTS_DIR="/root/ros2_ws/results"
 SOFTWARE_SETUP=""
 PARAMS_FILE=""
 
-# --- ROUTINE DE VÉRIFICATION ET DÉMARRAGE DU CONTENEUR ---
-if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-    echo "Le conteneur $CONTAINER_NAME est éteint. Allumage en cours..."
-    docker start $CONTAINER_NAME
-    sleep 3 
+# --- DETECTION OF THE CONTAINER SOFTWARE LAYOUT ---
+# RevA stores the compiled software stack inside /opt/hml_ws and mounts the
+# published configuration read-only under /root/hml/config.
+#
+# The legacy field container mounts the complete ROS 2 workspace under
+# /root/ros2_ws.
+
+if docker exec "$CONTAINER_NAME" test -f /opt/hml_ws/install/setup.bash \
+   && docker exec "$CONTAINER_NAME" test -f /root/hml/config/params.yaml; then
+
+    SOFTWARE_SETUP="/opt/hml_ws/install/setup.bash"
+    PARAMS_FILE="/root/hml/config/params.yaml"
+
+    echo "RevA processing environment detected."
+    echo "Software: $SOFTWARE_SETUP"
+    echo "Parameters: $PARAMS_FILE"
+
+elif docker exec "$CONTAINER_NAME" test -f /root/ros2_ws/install/setup.bash \
+     && docker exec "$CONTAINER_NAME" test -f /root/ros2_ws/src/direct_lidar_inertial_odometry/cfg/params.yaml; then
+
+    SOFTWARE_SETUP="/root/ros2_ws/install/setup.bash"
+    PARAMS_FILE="/root/ros2_ws/src/direct_lidar_inertial_odometry/cfg/params.yaml"
+
+    echo "Legacy field-processing environment detected."
+    echo "Software: $SOFTWARE_SETUP"
+    echo "Parameters: $PARAMS_FILE"
+
+else
+    echo "ERROR: Unable to identify a valid HML-LiDAR DLIO environment"
+    echo "inside container: $CONTAINER_NAME"
+    exit 1
 fi
 
 # Fonction d'orchestration isolée pour un segment unique avec blindage de fermeture
