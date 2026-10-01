@@ -10,7 +10,7 @@ authors:
     affiliation: "Polytechnique Montréal, LABAC"
   - family-names: Beltrame
     given-names: Giovanni
-    affiliation: "Polytechnique Montréal"
+    affiliation: "Polytechnique Montréal, MIST"
 
 abstract: >-
   HML-LiDAR is an open-source helmet-mounted LiDAR/IMU workflow for cave
@@ -39,3 +39,5 @@ repository-code: "https://github.com/sbassetto/hml-lidar-cave-mapping"
 
 version: "RevA-v1.0.0"
 date-released: "2026-10-01"
+
+doi: "10.5281/zenodo.23088868"

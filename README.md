@@ -1,5 +1,7 @@
 # HML-LiDAR Cave Mapping
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23088868.svg)](https://doi.org/10.5281/zenodo.23088868)
+
 Open-source helmet-mounted LiDAR/IMU workflow for cave mapping using a Livox Mid-360, Raspberry Pi 4, ROS 2, DLIO, multi-session point-cloud registration, network revision, and VisualTopo-compatible topographic export.
 
 **Project:** HML-LiDAR — Head/Helmet-Mounted LiDAR for cave mapping  
