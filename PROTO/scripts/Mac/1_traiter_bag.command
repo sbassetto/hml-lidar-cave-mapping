@@ -4,12 +4,19 @@
 
 echo "=== DÉMARRAGE DU SCRIPT DE TRAITEMENT ==="
 
-CONTAINER_NAME="cave_explorer_m4"
-ROS_WS="/root/ros2_ws"
+# RevA reference container.
+# The legacy field container can still be selected with:
+# HML_CONTAINER_NAME=cave_explorer_m4 ./1_traiter_bag.command
+CONTAINER_NAME="${HML_CONTAINER_NAME:-hml_lidar_reva}"
 
-# Identification absolue du répertoire d'exécution du script
-BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
-RAW_DIR="$BASE_DIR/raw"
+# Host-side acquisition directory
+HML_DATA_ROOT="${HML_DATA_ROOT:-$HOME/Desktop/Expedition_Data}"
+RAW_DIR="${HML_RAW_DIR:-$HML_DATA_ROOT/raw}"
+
+# Runtime paths are selected after the container is started.
+ROS_RESULTS_DIR="/root/ros2_ws/results"
+SOFTWARE_SETUP=""
+PARAMS_FILE=""
 
 # --- ROUTINE DE VÉRIFICATION ET DÉMARRAGE DU CONTENEUR ---
 if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
